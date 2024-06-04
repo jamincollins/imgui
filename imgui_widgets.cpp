@@ -4033,12 +4033,17 @@ static bool InputTextFilterCharacter(ImGuiContext* ctx, unsigned int* p_char, Im
     if (flags & ImGuiInputTextFlags_CallbackCharFilter)
     {
         ImGuiContext& g = *GImGui;
+        ImGuiInputTextState* state = &g.InputTextState;
         ImGuiInputTextCallbackData callback_data;
         callback_data.Ctx = &g;
         callback_data.EventFlag = ImGuiInputTextFlags_CallbackCharFilter;
         callback_data.EventChar = (ImWchar)c;
         callback_data.Flags = flags;
         callback_data.UserData = user_data;
+        callback_data.Buf = state->TextA.Data; //buf;
+        callback_data.BufSize = state->TextA.Size;
+        callback_data.BufTextLen = strlen(callback_data.Buf);
+        callback_data.CursorPos = state->GetCursorPos();
         if (callback(&callback_data) != 0)
             return false;
         *p_char = callback_data.EventChar;
