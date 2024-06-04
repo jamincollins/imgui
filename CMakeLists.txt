@@ -15,8 +15,9 @@ add_library(imgui STATIC
     backends/imgui_impl_opengl3.cpp)
 
 set_target_properties(imgui PROPERTIES FOLDER "ImGUI")
+target_compile_definitions(imgui PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
 
 target_include_directories(imgui PUBLIC . backends)
-target_link_libraries(imgui glfw)
+target_link_libraries(imgui glfw glad::GL)
 
 add_library(imgui::imgui ALIAS imgui)
